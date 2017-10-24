@@ -1,0 +1,11 @@
+Package: YLHpackage
+Type: Package
+Title: What the package does (short line)
+Version: 1.0
+Date: 2017-10-24
+Author: Lihao Yin
+Maintainer: Lihao Yin<2016000102@ruc.edu.cn>
+Description: More about what it does (maybe more than one line)
+License: What license is it under?
+Imports: Rcpp (>= 0.12.12)
+LinkingTo: Rcpp, RcppArmadillo

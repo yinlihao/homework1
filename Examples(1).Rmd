@@ -1,0 +1,54 @@
+---
+title: "Simulation of the package"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Numerical Simulation
+```{r }
+n = 100
+p = 200
+sigma = 0.2
+beta = rep(0,p)
+beta[1:6] = runif(p,10,100)
+noise = rnorm(n, sd = sigma)
+X = matrix(rnorm(n*p,sd=10), nrow = n, ncol=p)
+standardisation = c()
+X_standard = X
+for(i in 1:p){
+  X_standard[,i]=X[,i]-mean(X[,i])
+}
+for(j in 1:p){
+  standardisation=append(standardisation,sum(X_standard[,j]*X_standard[,j]))
+}
+for(k in 1:p){
+  X_standard[,k]=X_standard[,k]/(sqrt(standardisation[k]/n))
+}
+y = X_standard %*% beta + noise
+y_standard = y-mean(y)
+lambda=0.2
+e=0.01
+beta_hat_CD=Lasso::CDLasso(y_standard,X_standard,lambda,e)
+beta_hat_PO=Lasso::POLasso(y_standard,X_standard,lambda,e)
+
+beta[1:6]
+beta_hat_CD[1:6]
+sqrt(sum((beta_hat_CD-beta)^2))
+beta_hat_PO[1:6]
+sqrt(sum((beta_hat_PO-beta)^2))
+```
+
+## Comparison of Convergence Rates of Two Methods
+
+The convergence performance of coordinate descent method
+
+![avatar](/Users/wt/CCD.png)
+
+The convergence performance of proximal operator method
+![avatar](/Users/wt/CPO.png)
+
+
+
